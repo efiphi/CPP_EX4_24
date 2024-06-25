@@ -26,6 +26,6 @@ test.o: test.cpp Tree.hpp Complex.hpp doctest.h
 
 demo.o: demo.cpp Tree.hpp Complex.hpp
 	$(CXX) $(CXXFLAGS) -c demo.cpp
-
+	
 clean:
 	rm -f *.o tree test demo

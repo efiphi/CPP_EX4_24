@@ -1,4 +1,5 @@
 #include "InOrderIterator.hpp"
+#include <cstddef>
 
 template <typename T>
 InOrderIterator<T>::InOrderIterator(TreeNode<T>* root) {
