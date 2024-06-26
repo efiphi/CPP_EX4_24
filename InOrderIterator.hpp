@@ -3,11 +3,13 @@
 
 #include "TreeNode.hpp"
 #include <stack>
+#include <cstddef>
 
 template <typename T>
 class InOrderIterator {
 private:
     std::stack<TreeNode<T>*> nodeStack;
+    TreeNode<T>* current;
     void pushLeft(TreeNode<T>* node);
 public:
     InOrderIterator(TreeNode<T>* root);

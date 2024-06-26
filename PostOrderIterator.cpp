@@ -1,19 +1,15 @@
 #include "PostOrderIterator.hpp"
 
 template <typename T>
-PostOrderIterator<T>::PostOrderIterator(TreeNode<T>* root) {
-    if (root) {
-        pushChildren(root);
-    }
+PostOrderIterator<T>::PostOrderIterator(TreeNode<T>* root) : lastVisited(nullptr) {
+    if (root) pushChildren(root);
 }
 
 template <typename T>
 void PostOrderIterator<T>::pushChildren(TreeNode<T>* node) {
-    if (node) {
-        nodeStack.push(node);
-        for (auto child : node->children) {
-            pushChildren(child);
-        }
+    nodeStack.push(node);
+    for (auto it = node->children.rbegin(); it != node->children.rend(); ++it) {
+        pushChildren(*it);
     }
 }
 
@@ -29,6 +25,7 @@ T& PostOrderIterator<T>::operator*() {
 
 template <typename T>
 PostOrderIterator<T>& PostOrderIterator<T>::operator++() {
+    lastVisited = nodeStack.top();
     nodeStack.pop();
     return *this;
 }

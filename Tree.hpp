@@ -17,13 +17,14 @@ class Tree {
 private:
     TreeNode<T>* root;
     int k;
-    void delete_tree(TreeNode<T>* node);
     void heapify(TreeNode<T>* node);
+
 public:
     Tree(int max_children = 2);
     ~Tree();
     void add_root(T value);
     void add_sub_node(TreeNode<T>* parent, T value);
+    void delete_tree(TreeNode<T>* node);
     TreeNode<T>* get_root();
 
     PreOrderIterator<T> begin_pre_order();
@@ -67,11 +68,10 @@ void Tree<T>::add_root(T value) {
 
 template <typename T>
 void Tree<T>::add_sub_node(TreeNode<T>* parent, T value) {
-    if (parent->children.size() < k) {
-        parent->children.push_back(new TreeNode<T>(value));
-    } else {
+    if (parent->children.size() >= k) {
         throw std::overflow_error("Max children reached");
     }
+    parent->children.push_back(new TreeNode<T>(value));
 }
 
 template <typename T>

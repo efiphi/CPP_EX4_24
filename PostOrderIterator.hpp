@@ -9,6 +9,7 @@ template <typename T>
 class PostOrderIterator {
 private:
     std::stack<TreeNode<T>*> nodeStack;
+    TreeNode<T>* lastVisited;
     void pushChildren(TreeNode<T>* node);
 public:
     PostOrderIterator(TreeNode<T>* root);

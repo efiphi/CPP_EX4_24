@@ -1,8 +1,7 @@
 #include "InOrderIterator.hpp"
-#include <cstddef>
 
 template <typename T>
-InOrderIterator<T>::InOrderIterator(TreeNode<T>* root) {
+InOrderIterator<T>::InOrderIterator(TreeNode<T>* root) : current(root) {
     pushLeft(root);
 }
 
@@ -10,10 +9,11 @@ template <typename T>
 void InOrderIterator<T>::pushLeft(TreeNode<T>* node) {
     while (node) {
         nodeStack.push(node);
-        if (!node->children.empty())
+        if (!node->children.empty()) {
             node = node->children[0];
-        else
+        } else {
             break;
+        }
     }
 }
 
@@ -31,10 +31,16 @@ template <typename T>
 InOrderIterator<T>& InOrderIterator<T>::operator++() {
     TreeNode<T>* node = nodeStack.top();
     nodeStack.pop();
-    if (!node->children.empty() && nodeStack.empty()) {
-        for (size_t i = 1; i < node->children.size(); ++i) {
-            pushLeft(node->children[i]);
+
+    if (!node->children.empty()) {
+        if (node->children.size() > 1) {
+            pushLeft(node->children[1]);
+        } else {
+            current = nullptr;
         }
+    } else {
+        current = nullptr;
     }
+
     return *this;
 }
