@@ -67,5 +67,7 @@ int main() {
     }
     cout << endl;
 
+    system("./TreeVisualizer");
+
     return 0;
 }
