@@ -1,7 +1,9 @@
 #include "Tree.hpp"
 #include "Complex.hpp"
+#include "TreeNode.hpp"
 #include <iostream>
 #include <string>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 
@@ -60,6 +62,49 @@ int main() {
         cout << *it << " ";
     }
     cout << endl;
+
+    // Visualizing the binary tree
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Tree Visualization");
+    sf::Font font;
+    if (!font.loadFromFile("arial.ttf")) {
+        std::cerr << "Error loading font" << std::endl;
+        return 1;
+    }
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+
+        window.clear(sf::Color::White);
+        tree.draw(window, font);
+        window.display();
+    }
+
+    // Visualizing a k-ary tree with complex numbers
+    Tree<Complex> complex_tree(3); // 3-ary tree with complex numbers.
+    complex_tree.add_root(Complex(1, 1));
+    complex_tree.add_sub_node(complex_tree.get_root(), Complex(2, 2));
+    complex_tree.add_sub_node(complex_tree.get_root(), Complex(3, 3));
+    complex_tree.add_sub_node(complex_tree.get_root(), Complex(4, 4));
+    complex_tree.add_sub_node(complex_tree.get_root()->children[0], Complex(5, 5));
+    complex_tree.add_sub_node(complex_tree.get_root()->children[0], Complex(6, 6));
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+
+        window.clear(sf::Color::White);
+        complex_tree.draw(window, font);
+        window.display();
+    }
 
     return 0;
 }

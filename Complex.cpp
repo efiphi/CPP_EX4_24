@@ -1,37 +1,25 @@
 #include "Complex.hpp"
-#include <cmath>
+#include <sstream>
 
-Complex Complex::operator+(const Complex& other) const {
-    return Complex(real + other.real, imag + other.imag);
+Complex::Complex(double r, double i) : real(r), imag(i) {}
+
+double Complex::get_real() const {
+    return real;
 }
 
-Complex Complex::operator-(const Complex& other) const {
-    return Complex(real - other.real, imag - other.imag);
+double Complex::get_imag() const {
+    return imag;
 }
 
-Complex Complex::operator*(const Complex& other) const {
-    return Complex(real * other.real - imag * other.imag, real * other.imag + imag * other.real);
+std::string Complex::to_string() const {
+    std::ostringstream oss;
+    oss << real << " + " << imag << "i";
+    return oss.str();
 }
 
-Complex Complex::operator/(const Complex& other) const {
-    double denominator = other.real * other.real + other.imag * other.imag;
-    return Complex((real * other.real + imag * other.imag) / denominator, (imag * other.real - real * other.imag) / denominator);
-}
-
-bool Complex::operator<(const Complex& other) const {
-    return std::sqrt(real * real + imag * imag) < std::sqrt(other.real * real + other.imag * imag);
-}
-
-bool Complex::operator>(const Complex& other) const {
-    return other < *this;
-}
-
-bool Complex::operator<=(const Complex& other) const {
-    return !(other < *this);
-}
-
-bool Complex::operator>=(const Complex& other) const {
-    return !(*this < other);
+std::ostream& operator<<(std::ostream& os, const Complex& c) {
+    os << c.get_real() << " + " << c.get_imag() << "i";
+    return os;
 }
 
 bool Complex::operator==(const Complex& other) const {
@@ -42,7 +30,10 @@ bool Complex::operator!=(const Complex& other) const {
     return !(*this == other);
 }
 
-std::ostream& operator<<(std::ostream& os, const Complex& c) {
-    os << c.real << " + " << c.imag << "i";
-    return os;
+bool Complex::operator>(const Complex& other) const {
+    return (real > other.real) || (real == other.real && imag > other.imag);
+}
+
+bool Complex::operator<(const Complex& other) const {
+    return (real < other.real) || (real == other.real && imag < other.imag);
 }

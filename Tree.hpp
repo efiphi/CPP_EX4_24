@@ -7,10 +7,15 @@
 #include "InOrderIterator.hpp"
 #include "BFSIterator.hpp"
 #include "DFSIterator.hpp"
+#include "NodeItem.hpp"
+#include "Complex.hpp"
 #include <stdexcept>
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <sstream>
 
 template <typename T>
 class Tree {
@@ -38,9 +43,12 @@ public:
     DFSIterator<T> begin_dfs_scan();
     DFSIterator<T> end_dfs_scan();
     void myHeap();
-};
+    void draw(sf::RenderWindow& window, const sf::Font& font) const;
 
-// Definitions of template methods
+private:
+    void draw(sf::RenderWindow& window, TreeNode<T>* node, const sf::Font& font, int x, int y, int circleSize, int horizontalSpacing, int verticalSpacing, int depth) const;
+    void position_nodes(TreeNode<T>* node, float x, float y, float horizontal_spacing, float vertical_spacing, std::map<TreeNode<T>*, sf::Vector2f>& positions) const;
+};
 
 template <typename T>
 Tree<T>::Tree(int max_children) : k(max_children), root(nullptr) {}
@@ -151,6 +159,70 @@ void Tree<T>::myHeap() {
         heapify(node);
         for (auto child : node->children) {
             nodes.push(child);
+        }
+    }
+}
+
+template <typename T>
+void Tree<T>::draw(sf::RenderWindow& window, const sf::Font& font) const {
+    if (!root) return;
+
+    const float node_radius = 25.f;
+    const float vertical_spacing = 80.f;
+    const float initial_horizontal_spacing = 200.f;
+
+    std::map<TreeNode<T>*, sf::Vector2f> positions;
+    position_nodes(root, window.getSize().x / 2.f, node_radius + 50.f, initial_horizontal_spacing, vertical_spacing, positions);
+
+    for (const auto& pair : positions) {
+        TreeNode<T>* node = pair.first;
+        sf::Vector2f position = pair.second;
+
+        sf::CircleShape circle(node_radius);
+        circle.setFillColor(sf::Color::Green);
+        circle.setPosition(position - sf::Vector2f(node_radius, node_radius));
+        window.draw(circle);
+
+        sf::Text text;
+        text.setFont(font);
+        if constexpr (std::is_same<T, Complex>::value) {
+            text.setString(node->value.to_string());
+        } else {
+            text.setString(std::to_string(node->value));
+        }
+        text.setCharacterSize(16);
+        text.setFillColor(sf::Color::Black);
+        sf::FloatRect text_bounds = text.getLocalBounds();
+        text.setOrigin(text_bounds.left + text_bounds.width / 2.0f, text_bounds.top + text_bounds.height / 2.0f);
+        text.setPosition(position);
+        window.draw(text);
+
+        for (TreeNode<T>* child : node->children) {
+            if (child) {
+                sf::Vector2f child_position = positions[child];
+                sf::Vertex line[] =
+                {
+                    sf::Vertex(position, sf::Color::Black),
+                    sf::Vertex(child_position, sf::Color::Black)
+                };
+                window.draw(line, 2, sf::Lines);
+            }
+        }
+    }
+}
+
+template <typename T>
+void Tree<T>::position_nodes(TreeNode<T>* node, float x, float y, float horizontal_spacing, float vertical_spacing, std::map<TreeNode<T>*, sf::Vector2f>& positions) const {
+    if (!node) return;
+
+    positions[node] = sf::Vector2f(x, y);
+
+    float child_x_offset = x - (node->children.size() - 1) * horizontal_spacing / 2.f;
+
+    for (size_t i = 0; i < node->children.size(); ++i) {
+        TreeNode<T>* child = node->children[i];
+        if (child) {
+            position_nodes(child, child_x_offset + i * horizontal_spacing, y + vertical_spacing, horizontal_spacing / 2.f, vertical_spacing, positions);
         }
     }
 }

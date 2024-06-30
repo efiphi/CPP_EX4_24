@@ -2,30 +2,27 @@
 #define COMPLEX_HPP
 
 #include <iostream>
+#include <string>
 
 class Complex {
 private:
     double real;
     double imag;
-public:
-    Complex(double r = 0.0, double i = 0.0) : real(r), imag(i) {}
-    
-    double getReal() const { return real; }
-    double getImag() const { return imag; }
-    
-    Complex operator+(const Complex& other) const;
-    Complex operator-(const Complex& other) const;
-    Complex operator*(const Complex& other) const;
-    Complex operator/(const Complex& other) const;
 
-    bool operator<(const Complex& other) const;
-    bool operator>(const Complex& other) const;
-    bool operator<=(const Complex& other) const;
-    bool operator>=(const Complex& other) const;
-    bool operator==(const Complex& other) const;
-    bool operator!=(const Complex& other) const;
+public:
+    Complex(double r = 0, double i = 0);
+
+    double get_real() const;
+    double get_imag() const;
+
+    std::string to_string() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Complex& c);
+    
+    bool operator==(const Complex& other) const;
+    bool operator!=(const Complex& other) const;
+    bool operator>(const Complex& other) const;
+    bool operator<(const Complex& other) const;
 };
 
 #endif // COMPLEX_HPP
