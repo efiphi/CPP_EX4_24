@@ -180,7 +180,7 @@ void Tree<T>::draw(sf::RenderWindow& window, const sf::Font& font) const {
         sf::Vector2f position = pair.second;
 
         sf::CircleShape circle(node_radius);
-        circle.setFillColor(sf::Color::Green);
+        circle.setFillColor(sf::Color::Yellow);
         circle.setPosition(position - sf::Vector2f(node_radius, node_radius));
         window.draw(circle);
 
