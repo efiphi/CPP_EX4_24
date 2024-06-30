@@ -78,32 +78,32 @@ Clone the repository:
 
 bash
 
-git clone https://github.com/efiphi/CPP_EX4_24.git
+    git clone https://github.com/efiphi/CPP_EX4_24.git
 
 Navigate to the project directory:
 
 bash
 
-cd CPP_EX4_24
+    cd CPP_EX4_24
 
 Build the project:
 
 bash
 
-make
-make test
+    make
+    make test
 
 Run the main program:
 
 bash
 
-./tree
+    ./tree
 
 Run the tests:
 
 bash
 
-./test
+    ./test
 
 Authors
 
