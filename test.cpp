@@ -279,3 +279,146 @@ TEST_CASE("Add Nodes for Tree<Complex>") {
     CHECK(n1->children.size() == 1);
     
 }
+
+TEST_CASE("Testing the Tree<char>") {
+    Tree<char> charTree;
+    charTree.add_root('A');
+    TreeNode<char>* root = charTree.get_root();
+    charTree.add_sub_node(root, 'B');
+    charTree.add_sub_node(root, 'C');
+    TreeNode<char>* n1 = root->children[0];
+    TreeNode<char>* n2 = root->children[1];
+    charTree.add_sub_node(n1, 'D');
+    charTree.add_sub_node(n1, 'E');
+    charTree.add_sub_node(n2, 'F');
+
+    SUBCASE("Pre-Order Traversal") {
+        std::vector<char> result;
+        for (auto it = charTree.begin_pre_order(); it != charTree.end_pre_order(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<char> expected = {'A', 'B', 'D', 'E', 'C', 'F'};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("Post-Order Traversal") {
+        std::vector<char> result;
+        for (auto it = charTree.begin_post_order(); it != charTree.end_post_order(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<char> expected = {'D', 'E', 'B', 'F', 'C', 'A'};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("In-Order Traversal") {
+        std::vector<char> result;
+        for (auto it = charTree.begin_in_order(); it != charTree.end_in_order(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<char> expected = {'D', 'B', 'E', 'A', 'F', 'C'};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("BFS Traversal") {
+        std::vector<char> result;
+        for (auto it = charTree.begin_bfs_scan(); it != charTree.end_bfs_scan(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<char> expected = {'A', 'B', 'C', 'D', 'E', 'F'};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("DFS Traversal") {
+        std::vector<char> result;
+        for (auto it = charTree.begin_dfs_scan(); it != charTree.end_dfs_scan(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<char> expected = {'A', 'B', 'D', 'E', 'C', 'F'};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("Heap Functionality") {
+        charTree.myHeap();
+        std::vector<char> result;
+        for (auto it = charTree.begin_bfs_scan(); it != charTree.end_bfs_scan(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<char> expected = {'A', 'B', 'C', 'D', 'E', 'F'}; 
+        CHECK(result == expected);
+    }
+
+    SUBCASE("Tree Structure Check") {
+        CHECK(root->value == 'A');
+        CHECK(root->children.size() == 2);
+        CHECK(root->children[0]->value == 'B');
+        CHECK(root->children[1]->value == 'C');
+    }
+}
+
+TEST_CASE("Testing the Tree<std::string>") {
+    Tree<std::string> stringTree;
+    stringTree.add_root("root");
+    TreeNode<std::string>* root = stringTree.get_root();
+    stringTree.add_sub_node(root, "child1");
+    stringTree.add_sub_node(root, "child2");
+    TreeNode<std::string>* n1 = root->children[0];
+    TreeNode<std::string>* n2 = root->children[1];
+    stringTree.add_sub_node(n1, "child3");
+    stringTree.add_sub_node(n1, "child4");
+    stringTree.add_sub_node(n2, "child5");
+
+    SUBCASE("Pre-Order Traversal") {
+        std::vector<std::string> result;
+        for (auto it = stringTree.begin_pre_order(); it != stringTree.end_pre_order(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<std::string> expected = {"root", "child1", "child3", "child4", "child2", "child5"};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("Post-Order Traversal") {
+        std::vector<std::string> result;
+        for (auto it = stringTree.begin_post_order(); it != stringTree.end_post_order(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<std::string> expected = {"child3", "child4", "child1", "child5", "child2", "root"};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("In-Order Traversal") {
+        std::vector<std::string> result;
+        for (auto it = stringTree.begin_in_order(); it != stringTree.end_in_order(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<std::string> expected = {"child3", "child1", "child4", "root", "child5", "child2"};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("BFS Traversal") {
+        std::vector<std::string> result;
+        for (auto it = stringTree.begin_bfs_scan(); it != stringTree.end_bfs_scan(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<std::string> expected = {"root", "child1", "child2", "child3", "child4", "child5"};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("DFS Traversal") {
+        std::vector<std::string> result;
+        for (auto it = stringTree.begin_dfs_scan(); it != stringTree.end_dfs_scan(); ++it) {
+            result.push_back(*it);
+        }
+        std::vector<std::string> expected = {"root", "child1", "child3", "child4", "child2", "child5"};
+        CHECK(result == expected);
+    }
+
+    SUBCASE("Tree Structure Check") {
+        CHECK(root->value == "root");
+        CHECK(root->children.size() == 2);
+        CHECK(root->children[0]->value == "child1");
+        CHECK(root->children[1]->value == "child2");
+    }
+}
+
+
+
