@@ -51,7 +51,14 @@ Represents a complex number.
         get_real(): Returns the real part of the complex number.
         get_imag(): Returns the imaginary part of the complex number.
         to_string(): Returns a string representation of the complex number.
+
+    Operators:
         operator<<: Overloads the insertion operator for outputting the complex number.
+        operator==: Checks if two complex numbers are equal.
+        operator!=: Checks if two complex numbers are not equal.
+        operator<: Checks if one complex number is less than another.
+        operator>: Checks if one complex number is greater than another.
+
 
 ## Tree Traversal Iterators
 
