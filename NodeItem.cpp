@@ -1,3 +1,4 @@
+//efiphi10@gmail.com
 #include "NodeItem.hpp"
 
 NodeItem::NodeItem(float radius, const std::string& text, const sf::Font& font)
