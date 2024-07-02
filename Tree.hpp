@@ -218,12 +218,14 @@ void Tree<T>::position_nodes(TreeNode<T>* node, float x, float y, float horizont
 
     positions[node] = sf::Vector2f(x, y);
 
-    float child_x_offset = x - (node->children.size() - 1) * horizontal_spacing / 2.f;
+    float total_width = (node->children.size() - 1) * horizontal_spacing;
+    float child_x_offset = x - total_width / 2.f;
 
     for (size_t i = 0; i < node->children.size(); ++i) {
         TreeNode<T>* child = node->children[i];
         if (child) {
-            position_nodes(child, child_x_offset + i * horizontal_spacing, y + vertical_spacing, horizontal_spacing / 2.f, vertical_spacing, positions);
+            float child_x = child_x_offset + i * horizontal_spacing;
+            position_nodes(child, child_x, y + vertical_spacing, horizontal_spacing / 2.f, vertical_spacing, positions);
         }
     }
 }
